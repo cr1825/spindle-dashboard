@@ -295,6 +295,29 @@
       <div class="hero-meta-item"><span class="val">3</span><span class="lbl">Sensor Modalities</span></div>
     </div>
   </section>
+  <div class="metrics">
+
+  <div class="metric-card">
+    <div class="lbl">Current</div>
+    <div class="val" id="live-current">--</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="lbl">RPM</div>
+    <div class="val" id="live-rpm">--</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="lbl">Vibration</div>
+    <div class="val" id="live-vibration">--</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="lbl">Status</div>
+    <div class="val" id="live-status">--</div>
+  </div>
+
+</div>
 
   <!-- Metric Cards -->
   <div class="metrics fade-in" id="performance">
@@ -638,6 +661,18 @@ async function runPredict() {
 }
 
 init();
+function updateLive(){
+  fetch('/api/live')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("live-current").innerText = data.current;
+      document.getElementById("live-rpm").innerText = data.rpm;
+      document.getElementById("live-vibration").innerText = data.vibration;
+      document.getElementById("live-status").innerText = data.status;
+    });
+}
+
+setInterval(updateLive, 1000);
 </script>
 </body>
 </html>
