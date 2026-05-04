@@ -136,6 +136,12 @@ def api_predict():
     try:
         data = request.get_json()
         # Expect {"features": {feature_name: value, ...}}  OR  {"row": [values...]}
+
+        if MODEL is None:
+            return jsonify({
+                "predicted_class": "Demo Mode",
+                "probabilities": {}
+            })
         if "features" in data:
             row = pd.DataFrame([data["features"]])[TOP_FEATURES]
         else:
@@ -170,6 +176,4 @@ def api_live():
     
 
 if __name__ == "__main__":
-    load_and_train()
-    port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+    app.run(host="0.0.0.0", port=8000)
