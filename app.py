@@ -151,6 +151,23 @@ def api_predict():
 @app.route("/api/health")
 def health():
     return jsonify({"status": "ok", "model_loaded": MODEL is not None})
+import time, math
+
+@app.route("/api/live")
+def api_live():
+    t = time.time()
+
+    current = 10 + 2 * math.sin(t)
+    rpm = 3000 + 500 * math.sin(t/2)
+    vibration = 0.5 + 0.3 * math.sin(5*t)
+
+    return jsonify({
+        "current": round(current, 2),
+        "rpm": int(rpm),
+        "vibration": round(vibration, 3),
+        "status": "Running"
+    })
+    
 
 if __name__ == "__main__":
     load_and_train()
